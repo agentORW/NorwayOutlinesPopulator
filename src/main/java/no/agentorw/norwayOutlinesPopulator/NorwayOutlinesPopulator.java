@@ -23,7 +23,7 @@ public final class NorwayOutlinesPopulator extends JavaPlugin implements Listene
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        log.info("NorwayOutlinesPopulator disabled");
     }
 
     @EventHandler
