@@ -68,7 +68,8 @@ public class RoadsPopulator extends BlockPopulator {
 
             int high_y = limitedRegion.getHighestBlockYAt(x, z) - 1;
 
-            if (Math.abs(high_y - y) <= 3) {
+            // Ignore clamping road fencing into the ground since its not in the ground.
+            if (Math.abs(high_y - y) <= 3 && blckid != 12) {
                 y = high_y;
             }
 
