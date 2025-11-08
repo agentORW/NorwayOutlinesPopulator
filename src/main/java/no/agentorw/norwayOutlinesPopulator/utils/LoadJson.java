@@ -13,7 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.*;
 import java.util.logging.Logger;
 
-public class loadJson {
+public class LoadJson {
 
     static Logger log = JavaPlugin.getPlugin(NorwayOutlinesPopulator.class).getLogger();
 
@@ -28,15 +28,15 @@ public class loadJson {
                     if (quad.size() == 4) {
                         coords.add(new int[]{ quad.get(0), quad.get(1), quad.get(2), quad.get(3) });
                     } else {
-                        log.warning("[MyTerrainPlugin] Skipping invalid coord with size " + quad.size());
+                        log.warning("Skipping invalid coord with size " + quad.size());
                     }
                 }
                 blocksPerChunk.put(entry.getKey(), coords);
             }
-            log.info("[MyTerrainPlugin] Loaded block data for " + blocksPerChunk.size() + " chunks.");
+            log.info("Loaded block data for " + blocksPerChunk.size() + " chunks.");
         } catch (IOException e) {
-            e.printStackTrace();
+            log.severe("Failed to load block data for " + file.getName() + " chunks." + " " + e.getMessage());
         }
-        return blocksPerChunk;
+        return Collections.unmodifiableMap(blocksPerChunk);
     }
 }

@@ -3,46 +3,46 @@ package no.agentorw.norwayOutlinesPopulator.populators;
 import org.bukkit.Material;
 import org.bukkit.generator.BlockPopulator;
 
-import java.io.File;
 import java.util.*;
+import java.util.logging.Logger;
 
-import no.agentorw.norwayOutlinesPopulator.utils.loadJson;
 import org.bukkit.generator.LimitedRegion;
 import org.bukkit.generator.WorldInfo;
 import org.jetbrains.annotations.NotNull;
 
 public class BuildingPopulator extends BlockPopulator {
-    private static final Map<String, List<int[]>> blocksPerChunk = loadJson.loadJson(new File("plugins/NorwayOutlinesData/buildings.json"));
+    private final Map<String, List<int[]>> blocksPerChunk;
+    private final Logger log;
+    private static final Map<Integer, Material> BLOCK_MAP = Map.ofEntries(
+            Map.entry(1, Material.WHITE_WOOL),         // Takkant / Taksprang / Takoverbyggkant
+        Map.entry(2, Material.LIGHT_GRAY_WOOL),    // FiktivBygningsavgrensning
+        Map.entry(3, Material.CYAN_WOOL),          // Arkade / Portrom
+        Map.entry(4, Material.ORANGE_WOOL),        // Veranda
+        Map.entry(5, Material.YELLOW_WOOL),        // Låvebru / TrappBygg
+        Map.entry(6, Material.BLACK_WOOL),         // VeggFrittstående
+        Map.entry(7, Material.RED_WOOL),           // Bygningsdelelinje / TaksprangBunn
+        Map.entry(8, Material.PINK_WOOL),          // Bygningslinje
+        Map.entry(9, Material.GREEN_WOOL),         // Mønelinje
+        Map.entry(10, Material.LIGHT_BLUE_WOOL),   // TakplatåTopp
+        Map.entry(11, Material.BLUE_WOOL),         // Takplatå
+        Map.entry(12, Material.BROWN_WOOL)        // BygningBru
+    );
+
+    private static final Map<Material, Integer> PRIORITY_MAP = invertMap();
+
+    public BuildingPopulator(Map<String, List<int[]>> buildingData, Logger PluginLog) {
+        this.blocksPerChunk = buildingData;
+        this.log = PluginLog;
+    }
 
     @Override
     public void populate(@NotNull WorldInfo worldInfo, @NotNull Random random, int chunkX, int chunkZ, @NotNull LimitedRegion limitedRegion) {
-        // Block ID to Material
-        Map<Integer, Material> blc = new HashMap<>();
-        blc.put(1, Material.WHITE_WOOL);         // Takkant / Taksprang / Takoverbyggkant
-        blc.put(2, Material.LIGHT_GRAY_WOOL);    // FiktivBygningsavgrensning
-        blc.put(3, Material.CYAN_WOOL);          // Arkade / Portrom
-        blc.put(4, Material.ORANGE_WOOL);        // Veranda
-        blc.put(5, Material.YELLOW_WOOL);        // Låvebru / TrappBygg
-        blc.put(6, Material.BLACK_WOOL);         // VeggFrittstående
-        blc.put(7, Material.RED_WOOL);           // Bygningsdelelinje / TaksprangBunn
-        blc.put(8, Material.PINK_WOOL);          // Bygningslinje
-        blc.put(9, Material.GREEN_WOOL);         // Mønelinje
-        blc.put(10, Material.LIGHT_BLUE_WOOL);   // TakplatåTopp
-        blc.put(11, Material.BLUE_WOOL);         // Takplatå
-        blc.put(12, Material.BROWN_WOOL);        // BygningBru
-
-        // Reverse map to check existing blocks' id's
-        Map<Material, Integer> materialPriority = new HashMap<>();
-        for (Map.Entry<Integer, Material> entry : blc.entrySet()) {
-            materialPriority.put(entry.getValue(), entry.getKey());
-        }
-
         String key = chunkX + "_" + chunkZ;
         List<int[]> blocks = blocksPerChunk.getOrDefault(key, Collections.emptyList());
 
         for (int[] coord : blocks) {
             if (coord.length < 4) {
-                System.out.println("Skipping invalid coord: " + Arrays.toString(coord));
+                this.log.warning("Skipping invalid coord: " + Arrays.toString(coord));
                 continue;
             }
 
@@ -55,19 +55,26 @@ public class BuildingPopulator extends BlockPopulator {
                 continue;
             }
 
-            Material newMaterial = blc.get(block_id);
+            Material newMaterial = BLOCK_MAP.get(block_id);
 
             if (newMaterial == null) {
+                this.log.warning("Skipping invalid block: " + Arrays.toString(coord) + " " + block_id);
                 continue;
             }
 
             Material existingMaterial = limitedRegion.getType(x, y, z);
-            int existingPriority = materialPriority.getOrDefault(existingMaterial, 0); // Air or unknown = priority 0
+            int existingPriority = PRIORITY_MAP.getOrDefault(existingMaterial, 0); // Air or unknown = priority 0
 
             // Place only if new block has higher priority
             if (block_id > existingPriority) {
                 limitedRegion.setType(x, y, z, newMaterial);
             }
         }
+    }
+
+    private static Map<Material, Integer> invertMap() {
+        Map<Material, Integer> inverse = new HashMap<>();
+        BuildingPopulator.BLOCK_MAP.forEach((key, value) -> inverse.put(value, key));
+        return inverse;
     }
 }
