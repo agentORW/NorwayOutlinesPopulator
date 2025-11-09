@@ -1,5 +1,5 @@
 name: NorwayOutlinesPopulator
-version: '1.0-SNAPSHOT'
+version: '1.0'
 main: no.agentorw.norwayOutlinesPopulator.NorwayOutlinesPopulator
 api-version: '1.21'
 author: agentORW
