@@ -1,5 +1,6 @@
 package no.agentorw.norwayOutlinesPopulator.populators;
 
+import no.agentorw.norwayOutlinesPopulator.utils.ChunkDataManager;
 import org.bukkit.Material;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.LimitedRegion;
@@ -10,7 +11,7 @@ import java.util.*;
 import java.util.logging.Logger;
 
 public class RoadsPopulator extends BlockPopulator {
-    private final Map<String, List<int[]>> blocksPerChunk;
+    private final ChunkDataManager dataManager;
     private final Logger log;
     private static final Map<Integer, Material> BLOCK_MAP = Map.ofEntries(
         Map.entry(18, Material.WHITE_CONCRETE),             // Kjørebanekant
@@ -39,15 +40,15 @@ public class RoadsPopulator extends BlockPopulator {
 
     private static final Map<Material, Integer> PRIORITY_MAP = invertMap();
 
-    public RoadsPopulator(Map<String, List<int[]>> roadData, Logger PluginLog) {
-        this.blocksPerChunk = roadData;
+    public RoadsPopulator(ChunkDataManager chunkDataManager, Logger PluginLog) {
+        this.dataManager = chunkDataManager;
         this.log = PluginLog;
     }
 
     @Override
     public void populate(@NotNull WorldInfo worldInfo, @NotNull Random random, int chunkX, int chunkZ, @NotNull LimitedRegion limitedRegion) {
-        String key = chunkX + "_" + chunkZ;
-        List<int[]> blocks = blocksPerChunk.getOrDefault(key, Collections.emptyList());
+        List<int[]> blocks = dataManager.getChunkData(chunkX, chunkZ);
+        if (blocks.isEmpty()) return;
 
         for (int[] coord : blocks) {
             if (coord.length < 4) {
