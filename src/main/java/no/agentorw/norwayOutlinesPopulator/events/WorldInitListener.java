@@ -24,8 +24,8 @@ public class WorldInitListener implements Listener {
     @EventHandler
     public void onWorldInit(WorldInitEvent event) {
         World world = event.getWorld();
-        world.getPopulators().add(new BuildingPopulator(buildingManager, log));
         world.getPopulators().add(new RoadsPopulator(roadsManager, log));
+        world.getPopulators().add(new BuildingPopulator(buildingManager, log));
         log.info("Added populators to world: " + world.getName());
     }
 }
