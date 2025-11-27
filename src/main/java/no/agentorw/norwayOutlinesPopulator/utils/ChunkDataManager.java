@@ -22,7 +22,7 @@ public class ChunkDataManager {
         }
     };
 
-    private static final int MAX_CACHE_SIZE = 64; // configurable — holds 64 region files at a time
+    private static final int MAX_CACHE_SIZE = 32; // configurable — holds 64 region files at a time
     private final Object lock = new Object();
 
     public ChunkDataManager(File baseFolder, Logger log) {
