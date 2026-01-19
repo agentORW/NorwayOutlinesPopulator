@@ -15,18 +15,18 @@ public class BuildingPopulator extends BlockPopulator {
     private final ChunkDataManager dataManager;
     private final Logger log;
     private static final Map<Integer, Material> BLOCK_MAP = Map.ofEntries(
-            Map.entry(1, Material.WHITE_WOOL),         // Takkant / Taksprang / Takoverbyggkant
-        Map.entry(2, Material.LIGHT_GRAY_WOOL),    // FiktivBygningsavgrensning
-        Map.entry(3, Material.CYAN_WOOL),          // Arkade / Portrom
-        Map.entry(4, Material.ORANGE_WOOL),        // Veranda
-        Map.entry(5, Material.YELLOW_WOOL),        // Låvebru / TrappBygg
-        Map.entry(6, Material.BLACK_WOOL),         // VeggFrittstående
-        Map.entry(7, Material.RED_WOOL),           // Bygningsdelelinje / TaksprangBunn
-        Map.entry(8, Material.PINK_WOOL),          // Bygningslinje
-        Map.entry(9, Material.GREEN_WOOL),         // Mønelinje
-        Map.entry(10, Material.LIGHT_BLUE_WOOL),   // TakplatåTopp
-        Map.entry(11, Material.BLUE_WOOL),         // Takplatå
-        Map.entry(12, Material.BROWN_WOOL)        // BygningBru
+            Map.entry(1, Material.WHITE_WOOL),
+        Map.entry(2, Material.LIGHT_GRAY_WOOL),
+        Map.entry(3, Material.CYAN_WOOL),
+        Map.entry(4, Material.ORANGE_WOOL),
+        Map.entry(5, Material.YELLOW_WOOL),
+        Map.entry(6, Material.BLACK_WOOL),
+        Map.entry(7, Material.RED_WOOL),
+        Map.entry(8, Material.PINK_WOOL),
+        Map.entry(9, Material.GREEN_WOOL),
+        Map.entry(10, Material.LIGHT_BLUE_WOOL),
+        Map.entry(11, Material.BLUE_WOOL),
+        Map.entry(12, Material.BROWN_WOOL)
     );
 
     private static final Map<Material, Integer> PRIORITY_MAP = invertMap();

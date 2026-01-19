@@ -14,28 +14,28 @@ public class RoadsPopulator extends BlockPopulator {
     private final ChunkDataManager dataManager;
     private final Logger log;
     private static final Map<Integer, Material> BLOCK_MAP = Map.ofEntries(
-        Map.entry(18, Material.WHITE_CONCRETE),             // Kjørebanekant
-        Map.entry(17, Material.BROWN_TERRACOTTA),           // Kantstein
-        Map.entry(16, Material.CYAN_CONCRETE),              // Skiltportal
-        Map.entry(15, Material.RED_CONCRETE),               // Vegbom
-        Map.entry(14, Material.YELLOW_GLAZED_TERRACOTTA),   // OverkjørbartArealAvgrensning
-        Map.entry(13, Material.ORANGE_GLAZED_TERRACOTTA) ,  // AnnetVegarealAvgrensning (MultiLineString)
-        Map.entry(12, Material.LIGHT_GRAY_TERRACOTTA),      // Vegrekkverk
+        Map.entry(18, Material.WHITE_CONCRETE),
+        Map.entry(17, Material.BROWN_TERRACOTTA),
+        Map.entry(16, Material.CYAN_CONCRETE),
+        Map.entry(15, Material.RED_CONCRETE),
+        Map.entry(14, Material.YELLOW_GLAZED_TERRACOTTA),   
+        Map.entry(13, Material.ORANGE_GLAZED_TERRACOTTA) ,
+        Map.entry(12, Material.LIGHT_GRAY_TERRACOTTA),
 
 // Areal
-        Map.entry(11, Material.ORANGE_TERRACOTTA),          // AnnetVegarealAvgrensning (MultiPolygon)
-        Map.entry(10, Material.WHITE_TERRACOTTA),           // FeristAvgrensning (linje->polygon)
-        Map.entry(9, Material.WHITE_GLAZED_TERRACOTTA),     // GangfeltAvgrensning (linje->polygon)
-        Map.entry(8, Material.RED_GLAZED_TERRACOTTA),       // FartsdemperAvgrensing (linje->polygon)
-        Map.entry(7, Material.LIGHT_GRAY_CONCRETE),         // Trafikkøy
-        Map.entry(6, Material.BLUE_GLAZED_TERRACOTTA),      // Kjørebanekant, Vegdekkekant, Vegskulderkant
-        Map.entry(5, Material.YELLOW_CONCRETE),             // ParkeringsOmråde
-        Map.entry(4, Material.ORANGE_CONCRETE),             // VegGåendeOgSyklende
-        Map.entry(3, Material.BLACK_CONCRETE),              // VegKjørende
+        Map.entry(11, Material.ORANGE_TERRACOTTA),
+        Map.entry(10, Material.WHITE_TERRACOTTA),
+        Map.entry(9, Material.WHITE_GLAZED_TERRACOTTA),
+        Map.entry(8, Material.RED_GLAZED_TERRACOTTA),
+        Map.entry(7, Material.LIGHT_GRAY_CONCRETE),
+        Map.entry(6, Material.BLUE_GLAZED_TERRACOTTA),
+        Map.entry(5, Material.YELLOW_CONCRETE),
+        Map.entry(4, Material.ORANGE_CONCRETE),
+        Map.entry(3, Material.BLACK_CONCRETE),
 
 // Linjer (plasser før areal)
-        Map.entry(2, Material.BROWN_GLAZED_TERRACOTTA),     // Vegskulderkant (MultiLineString)
-        Map.entry(1, Material.LIGHT_BLUE_GLAZED_TERRACOTTA) // Vegdekkekant (MultiLineString)
+        Map.entry(2, Material.BROWN_GLAZED_TERRACOTTA),
+        Map.entry(1, Material.LIGHT_BLUE_GLAZED_TERRACOTTA)
     );
 
     private static final Map<Material, Integer> PRIORITY_MAP = invertMap();
